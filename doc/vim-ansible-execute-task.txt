@@ -43,9 +43,11 @@ the command is run. You're free to put anything in there as long as it works for
 
 *AnsibleExecuteTask*
 
-Use this command to run single tasks from a role/tasks/ file. The selected content
-is copied to a temporary file and g:ansible_execute_task_command is run by replacing
-$FILE the temporary file.
+Use this command to run single or mulitple tasks (next each other). Is very
+handy during development to execute the single task that you're editing.
+
+First use <C-v> to select the task that you want to run, then call
+AnsibleExecuteTask command.
 
 =======================================================================================
 
