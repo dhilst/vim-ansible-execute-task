@@ -4,15 +4,29 @@ Some commands for making nodemcu development more pratical.
 
 =======================================================================================
 
-1. Overview ............................................... |Overview|
-2. Execute a single task .................................. |AnsibleExecuteTask|
-3. Execute the current file ............................... |AnsibleExecuteFile|
-4. Execute the current file (as a playbook) ............... |AnsibleExecutePlaybook|
-4. Execute the current file (as a playbook) ............... |AnsibleExecutePlaybook|
+1. Installation ........................................... |Installation|
+2. Configuration........................................... |Configuration|
+3. Execute a single task .................................. |AnsibleExecuteTask|
+4. Execute the current file ............................... |AnsibleExecuteFile|
+5. Execute the current file (as a playbook) ............... |AnsibleExecutePlaybook|
+6. Execute the current file (as a playbook) ............... |AnsibleExecutePlaybook|
+7. Mappings ............................................... |Mapping|
 
 =======================================================================================
 
-*Overview*
+*Installation*
+
+
+vim-plug is recommended, in this case just place the bellow in vim-plug block,
+between call plug#begin(...) and call plug#end()
+
+`Plug 'dhilst/vim-ansible-execute-task'`
+
+Restart vim and run `:PlugInstall`
+
+=======================================================================================
+
+*Configuration*
 
 This plugin provides commands to execute ansible tasks in various ways. It makes possible
 to execute a single task by selecting it.
@@ -20,7 +34,7 @@ to execute a single task by selecting it.
 Before begin define the following variables in your .vimrc
 
     let g:ansible_execute_task_command = "ansible -m include_tasks -a $FILE all"
-    let g:ansible_execute_playbook_command = "ansible-playbook -v $FILE" 
+    let g:ansible_execute_playbook_command = "ansible-playbook -v $FILE"
 
 $FILE will be replaced by a file contaning the selected contents/file/playbook before
 the command is run. You're free to put anything in there as long as it works for you.
@@ -49,31 +63,19 @@ replaced in g:ansible_execute_playbook_command
 
 =======================================================================================
 
-*NMCUrestart*
+Mappings
 
-This restarts the NodeMCU, is like "nodemcu-uploader restart"
+vnoremap <Plug>(AnsibleExecuteTask) <ESC>:AnsibleExecuteTask<CR>
+nnoremap <Plug>(AnsibleExecuteFile) :AnsibleExecuteFile<CR>
+nnoremap <Plug>(AnsibleExecutePlaybook) :AnsibleExecutePlaybook<CR>
 
-=======================================================================================
+To map it to <F7>, <F8>, <F9> add the bellow to your `.vimrc`
 
-*NMCUrm* 
+au FileType yaml,yaml.ansible vnoremap <buffer> <F7> <Plug>(AnsibleExecuteTask)
+au FileType yaml.ansible nnoremap <buffer> <F8> <Plug>(AnsibleExecuteFile)
+au FileType yaml nnoremap <buffer> <F9> <Plug>(AnsibleExecutePlaybook)
 
-This will prompt for files to delete. Once anwered the file is removed from the
-flash.
-
-=======================================================================================
-*NMCUsh*
-
-Use this to access the NodeMCU from terminal. It uses "nodemcu terminal"
-command.
-
-=======================================================================================
-
-*NMCUtest*
-
-This command does tree things in sequence. It uploads the current file
-to NodeMCU, restart it and enter in the serial. This should help to achieve
-some kind of quickfix. Testing code on NMCU is boring so this would
-speed up things a little.
+You can map it in your .vimrc by 
 
 =======================================================================================
 vim:set ts=4 sts=4 sw=4 ft=help:
