@@ -73,9 +73,9 @@ nnoremap <Plug>(AnsibleExecutePlaybook) :AnsibleExecutePlaybook<CR>
 
 To map it to <F7>, <F8>, <F9> add the bellow to your `.vimrc`
 
-au FileType yaml,yaml.ansible vnoremap <buffer> <F7> <Plug>(AnsibleExecuteTask)
-au FileType yaml.ansible nnoremap <buffer> <F8> <Plug>(AnsibleExecuteFile)
-au FileType yaml nnoremap <buffer> <F9> <Plug>(AnsibleExecutePlaybook)
+au FileType yaml,yaml.ansible vmap <buffer> <F7> <Plug>AnsibleExecuteTask
+au FileType yaml.ansible      nmap <buffer> <F8> <Plug>AnsibleExecuteFile
+au FileType yaml              nmap <buffer> <F9> <Plug>AnsibleExecutePlaybook
 
 You can map it in your .vimrc by 
 

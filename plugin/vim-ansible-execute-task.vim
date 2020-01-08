@@ -4,7 +4,7 @@
 " text is copied to a temporary file and g:ansible_exexute_task_command
 " is executed by replacing $FILE substring by the temporary file created
 " before.
-function! AnsibleExecuteTask() range abort
+function s:AnsibleExecuteTask() range abort
     silent! normal gvy
     let tempname = tempname()
     let lines = split(@", '\n')
@@ -19,24 +19,24 @@ function! AnsibleExecuteTask() range abort
       silent! execute "!rm -f ".tempname
     endtry
 endfunction
-command! -range AnsibleExecuteTask :call AnsibleExecuteTask()
+command! -range AnsibleExecuteTask :call <SID>AnsibleExecuteTask()
 
 " Executes the current file by replacing $FILE in
 " g:ansible_execute_task_command to the current opened
 " buffer
-function! AnsibleExecuteFile(file) abort
+function s:AnsibleExecuteFile(file) abort
     let command = substitute(g:ansible_execute_task_command, "$FILE", a:file, "")
     execute "!".command
 endfunction
-command! AnsibleExecuteFile :call AnsibleExecuteFile(expand("%:p"))
+command! AnsibleExecuteFile :call <SID>AnsibleExecuteFile(expand("%:p"))
 
 " Executes the opened playbook
-function! AnsibleExecutePlaybook(playbook) abort
+function s:AnsibleExecutePlaybook(playbook) abort
     let command = substitute(g:ansible_execute_playbook_command, "$FILE", a:playbook, "")
     execute "!".command
 endfunction
-command! AnsibleExecutePlaybook :call AnsibleExecutePlaybook(expand("%:p"))
+command! AnsibleExecutePlaybook :call <SID>AnsibleExecutePlaybook(expand("%:p"))
 
-vnoremap <Plug>(AnsibleExecuteTask) <ESC>:AnsibleExecuteTask<CR>
-nnoremap <Plug>(AnsibleExecuteFile) :AnsibleExecuteFile<CR>
-nnoremap <Plug>(AnsibleExecutePlaybook) :AnsibleExecutePlaybook<CR>
+vnoremap <unique> <Plug>AnsibleExecuteTask      <ESC>:AnsibleExecuteTask<CR>
+nnoremap <unique> <Plug>AnsibleExecuteFile      :AnsibleExecuteFile<CR>
+nnoremap <unique> <Plug>AnsibleExecutePlaybook  :AnsibleExecutePlaybook<CR>
