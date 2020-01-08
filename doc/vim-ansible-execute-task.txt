@@ -1,0 +1,80 @@
+*vim-ansible-execute-task.txt*	For Vim version 8.0	Last change: 2019 Jan 08
+
+Some commands for making nodemcu development more pratical.
+
+=======================================================================================
+
+1. Overview ............................................... |Overview|
+2. Execute a single task .................................. |AnsibleExecuteTask|
+3. Execute the current file ............................... |AnsibleExecuteFile|
+4. Execute the current file (as a playbook) ............... |AnsibleExecutePlaybook|
+4. Execute the current file (as a playbook) ............... |AnsibleExecutePlaybook|
+
+=======================================================================================
+
+*Overview*
+
+This plugin provides commands to execute ansible tasks in various ways. It makes possible
+to execute a single task by selecting it.
+
+Before begin define the following variables in your .vimrc
+
+    let g:ansible_execute_task_command = "ansible -m include_tasks -a $FILE all"
+    let g:ansible_execute_playbook_command = "ansible-playbook -v $FILE" 
+
+$FILE will be replaced by a file contaning the selected contents/file/playbook before
+the command is run. You're free to put anything in there as long as it works for you.
+
+=======================================================================================
+
+*AnsibleExecuteTask*
+
+Use this command to run single tasks from a role/tasks/ file. The selected content
+is copied to a temporary file and g:ansible_execute_task_command is run by replacing
+$FILE the temporary file.
+
+=======================================================================================
+
+*AnsibleExecuteFile*
+
+Execute the current buffer in by replacing $FILE in g:ansigle_execute_task by
+the absolute file path.
+
+=======================================================================================
+
+*AnsibleExecutePlaubook*
+
+Execute the current file as a playbook. The current file absolute path is
+replaced in g:ansible_execute_playbook_command
+
+=======================================================================================
+
+*NMCUrestart*
+
+This restarts the NodeMCU, is like "nodemcu-uploader restart"
+
+=======================================================================================
+
+*NMCUrm* 
+
+This will prompt for files to delete. Once anwered the file is removed from the
+flash.
+
+=======================================================================================
+*NMCUsh*
+
+Use this to access the NodeMCU from terminal. It uses "nodemcu terminal"
+command.
+
+=======================================================================================
+
+*NMCUtest*
+
+This command does tree things in sequence. It uploads the current file
+to NodeMCU, restart it and enter in the serial. This should help to achieve
+some kind of quickfix. Testing code on NMCU is boring so this would
+speed up things a little.
+
+=======================================================================================
+vim:set ts=4 sts=4 sw=4 ft=help:
+
