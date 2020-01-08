@@ -76,8 +76,6 @@ au FileType yaml,yaml.ansible vmap <buffer> <F7> <Plug>AnsibleExecuteTask
 au FileType yaml.ansible      nmap <buffer> <F8> <Plug>AnsibleExecuteFile
 au FileType yaml              nmap <buffer> <F9> <Plug>AnsibleExecutePlaybook
 
-You can map it in your .vimrc by 
-
 =======================================================================================
 vim:set ts=4 sts=4 sw=4 ft=help:
 
