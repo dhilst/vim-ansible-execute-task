@@ -7,10 +7,9 @@ Some commands for making nodemcu development more pratical.
 1. Installation ........................................... |Installation|
 2. Configuration........................................... |Configuration|
 3. Execute a single task .................................. |AnsibleExecuteTask|
-4. Execute the current file ............................... |AnsibleExecuteFile|
+4. Execute the current file (as tasks) .................... |AnsibleExecuteFile|
 5. Execute the current file (as a playbook) ............... |AnsibleExecutePlaybook|
-6. Execute the current file (as a playbook) ............... |AnsibleExecutePlaybook|
-7. Mappings ............................................... |Mapping|
+6. Mappings ............................................... |Mapping|
 
 =======================================================================================
 
@@ -58,7 +57,7 @@ the absolute file path.
 
 =======================================================================================
 
-*AnsibleExecutePlaubook*
+*AnsibleExecutePlaybook*
 
 Execute the current file as a playbook. The current file absolute path is
 replaced in g:ansible_execute_playbook_command
