@@ -37,6 +37,6 @@ function s:AnsibleExecutePlaybook(playbook) abort
 endfunction
 command! AnsibleExecutePlaybook :call <SID>AnsibleExecutePlaybook(expand("%:p"))
 
-vnoremap <unique> <Plug>AnsibleExecuteTask      <ESC>:AnsibleExecuteTask<CR>
-nnoremap <unique> <Plug>AnsibleExecuteFile      :AnsibleExecuteFile<CR>
-nnoremap <unique> <Plug>AnsibleExecutePlaybook  :AnsibleExecutePlaybook<CR>
+vnoremap <Plug>AnsibleExecuteTask      <ESC>:AnsibleExecuteTask<CR>
+nnoremap <Plug>AnsibleExecuteFile      :AnsibleExecuteFile<CR>
+nnoremap <Plug>AnsibleExecutePlaybook  :AnsibleExecutePlaybook<CR>
