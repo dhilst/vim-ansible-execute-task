@@ -1,3 +1,19 @@
+func! s:write_temp_file(lines) abort
+  let temp = tempname()
+  let res = writefile(a:lines, temp)
+  if res == -1
+    throw "writefile error"
+  endif
+  return temp
+endfunc
+
+func! s:call_in_term(cmd)
+  split
+  wincmd j
+  enew
+  call termopen(a:cmd)
+endfun
+
 " Executes the selected text as an ansible task. The command
 " is gathered from g:ansible_execute_task_command. The responsibity
 " of selecting the right amout of text is to the user, the selected
@@ -6,18 +22,10 @@
 " before.
 function s:AnsibleExecuteTask() range abort
     silent! normal gvy
-    let tempname = tempname()
     let lines = split(@", '\n')
-    let res = writefile(lines, tempname)
-    if res == -1
-      throw "writefile failed " . tempname
-    endif
+    let tempname = s:write_temp_file(lines)
     let command = substitute(g:ansible_execute_task_command, "$FILE", tempname, "")
-    try
-      execute "!".command
-    finally
-      silent! execute "!rm -f ".tempname
-    endtry
+    call s:call_in_term(command)
 endfunction
 command! -range AnsibleExecuteTask :call <SID>AnsibleExecuteTask()
 
@@ -26,14 +34,14 @@ command! -range AnsibleExecuteTask :call <SID>AnsibleExecuteTask()
 " buffer
 function s:AnsibleExecuteFile(file) abort
     let command = substitute(g:ansible_execute_task_command, "$FILE", a:file, "")
-    execute "!".command
+    call s:call_in_term(command)
 endfunction
 command! AnsibleExecuteFile :call <SID>AnsibleExecuteFile(expand("%:p"))
 
 " Executes the opened playbook
 function s:AnsibleExecutePlaybook(playbook) abort
     let command = substitute(g:ansible_execute_playbook_command, "$FILE", a:playbook, "")
-    execute "!".command
+    call s:call_in_term(command)
 endfunction
 command! AnsibleExecutePlaybook :call <SID>AnsibleExecutePlaybook(expand("%:p"))
 
