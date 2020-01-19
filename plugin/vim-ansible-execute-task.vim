@@ -1,12 +1,3 @@
-func! s:write_temp_file(lines) abort
-  let temp = tempname()
-  let res = writefile(a:lines, temp)
-  if res == -1
-    throw "writefile error"
-  endif
-  return temp
-endfunc
-
 func! s:call_in_term(cmd)
   split
   wincmd j
@@ -23,8 +14,12 @@ endfun
 function s:AnsibleExecuteTask() range abort
     silent! normal gvy
     let lines = split(@", '\n')
-    let tempname = s:write_temp_file(lines)
-    let command = substitute(g:ansible_execute_task_command, "$FILE", tempname, "")
+    let fname = "/tmp/vim-ansible-execute-task.vim.data"
+    let res = writefile(lines, fname)
+    if res == -1
+      throw "writefile error ".res
+    end
+    let command = substitute(g:ansible_execute_task_command, "$FILE", fname, "")
     call s:call_in_term(command)
 endfunction
 command! -range AnsibleExecuteTask :call <SID>AnsibleExecuteTask()
@@ -34,14 +29,14 @@ command! -range AnsibleExecuteTask :call <SID>AnsibleExecuteTask()
 " buffer
 function s:AnsibleExecuteFile(file) abort
     let command = substitute(g:ansible_execute_task_command, "$FILE", a:file, "")
-    call s:call_in_term(command)
+    execute "!".command
 endfunction
 command! AnsibleExecuteFile :call <SID>AnsibleExecuteFile(expand("%:p"))
 
 " Executes the opened playbook
 function s:AnsibleExecutePlaybook(playbook) abort
     let command = substitute(g:ansible_execute_playbook_command, "$FILE", a:playbook, "")
-    call s:call_in_term(command)
+    execute "!".command
 endfunction
 command! AnsibleExecutePlaybook :call <SID>AnsibleExecutePlaybook(expand("%:p"))
 
