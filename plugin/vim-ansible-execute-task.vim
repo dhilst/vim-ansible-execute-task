@@ -1,8 +1,14 @@
 func! s:call_in_term(cmd)
-  split
-  wincmd j
-  enew
-  call termopen(a:cmd)
+  if bufexists(a:command)
+    let bufn = bufnr(a:command)
+    try
+      execute "bdelete! ".bufn
+    catch /No buffers were deleted/
+    endtry
+  end
+  split a:command
+  startinsert
+  call termopen(a:command)
 endfun
 
 " Executes the selected text as an ansible task. The command
