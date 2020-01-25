@@ -29,14 +29,14 @@ command! -range AnsibleExecuteTask :call <SID>AnsibleExecuteTask()
 " buffer
 function s:AnsibleExecuteFile(file) abort
     let command = substitute(g:ansible_execute_task_command, "$FILE", a:file, "")
-    call s:_call_in_term(command)
+    call s:call_in_term(command)
 endfunction
 command! AnsibleExecuteFile :call <SID>AnsibleExecuteFile(expand("%:p"))
 
 " Executes the opened playbook
 function s:AnsibleExecutePlaybook(playbook) abort
     let command = substitute(g:ansible_execute_playbook_command, "$FILE", a:playbook, "")
-    call s:_call_in_term(command)
+    call s:call_in_term(command)
 endfunction
 command! AnsibleExecutePlaybook :call <SID>AnsibleExecutePlaybook(expand("%:p"))
 
