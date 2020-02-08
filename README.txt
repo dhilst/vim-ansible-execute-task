@@ -1,1 +1,0 @@
-doc/vim-ansible-execute-task.txt
