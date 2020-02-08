@@ -4,6 +4,8 @@ This plug let you to execute arbitrary ansible tasks by selecting
 a block, running the current file, being it a playbook or a
 tasks file.
 
+[![asciicast](https://asciinema.org/a/ezgOAViHxSNOjPaNf8vDhEqRx.svg)](https://asciinema.org/a/ezgOAViHxSNOjPaNf8vDhEqRx)
+
 # Installation
 
 [vim-plug](https://github.com/junegunn/vim-plug) is recommended, in this case
