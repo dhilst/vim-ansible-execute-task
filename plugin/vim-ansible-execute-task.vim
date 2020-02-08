@@ -1,15 +1,37 @@
-func! s:call_in_term(cmd)
-  if bufexists(a:command)
-    let bufn = bufnr(a:command)
+func! s:findbuf(bufpat) abort
+  redir @o
+  silent! ls
+  redir END
+  let buffers = split(@o, "\n")
+  let found = -1
+python3 <<EOF
+import re
+from shlex import split as shsplit
+
+bufpat = vim.eval("a:bufpat")
+buffers = vim.eval("buffers")
+buffers = map(shsplit, buffers)
+buffers = [(v[0], v[2]) for v in buffers]
+for id_, name  in buffers:
+  if re.search(bufpat, name) is not None:
+    vim.command(f"let found = {id_}")
+    break
+EOF
+  return found
+endfunc
+
+func! s:call_in_term(command) abort
+  let bufid = s:findbuf(a:command)
+  if bufid != -1
     try
-      execute "bdelete! ".bufn
+      execute "bdelete! ".bufid
     catch /No buffers were deleted/
     endtry
-  end
+  endif
   split a:command
   startinsert
   call termopen(a:command)
-endfun
+endfunc
 
 " Executes the selected text as an ansible task. The command
 " is gathered from g:ansible_execute_task_command. The responsibity
