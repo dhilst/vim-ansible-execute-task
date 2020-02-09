@@ -34,16 +34,16 @@ I have other examples here:
     let g:ansible_execute_task_command = "ansible-playbook -v test/include_tasks.yaml -i inventory/test_hosts -e file=$FILE"
     let g:ansible_execute_playbook_command = "ansible-playbook -v $FILE -i inventory/test_hosts --limit ansible-test1"
 
-`g:ansible_execute_task_command` is used by [AnsibleExecuteTask](ansibleexecutetask) command to
+`g:ansible_execute_task_command` is used by [AnsibleExecuteTask](#ansibleexecutetask) command to
 execute the selected text. It works by coping the selectec block to a temporary
 file and executing the command replacing `$FILE` mark by the temporary file.
 
-When running [AnsibleExecuteFile](ansibleexecutefile) the same strategy is used by there is no temporary
+When running [AnsibleExecuteFile](#ansibleexecutefile) the same strategy is used by there is no temporary
 file, the current buffer is passed to `g:ansible_execute_task_command` as it is.
 
 Now `g:ansible_execute_playbook_command` is used to run full playbooks, that
 one with `hosts` and `vars` sections, beside `tasks`. This variable is used by
-[AnsibleExecutePlaybook](ansibleexecuteplaybook) command to execute the playbook.
+[AnsibleExecutePlaybook](#ansibleexecuteplaybook) command to execute the playbook.
 
 # Commands
 
