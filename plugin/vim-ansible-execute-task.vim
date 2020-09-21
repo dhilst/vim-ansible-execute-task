@@ -47,6 +47,20 @@ function s:AnsibleExecuteTask() range abort
     if res == -1
       throw "writefile error ".res
     end
+" Copy templates files to /tmp/template prior executing templates
+python3 <<EOF
+import shutil, yaml, os, sys
+lines = vim.eval('@"')
+data = yaml.safe_load(lines)
+if data is not None and isinstance(data, list) and data:
+  src = data[0].get("template", {}).get("src")
+  if src is not None:
+    path = os.path.abspath(os.path.join(vim.eval('expand("%:p")'), "../../templates", src))
+    if not os.path.exists("/tmp/templates"):
+        os.mkdir("/tmp/templates")
+    print(path)
+    shutil.copyfile(path, os.path.join("/tmp/templates", src))
+EOF
     let command = substitute(g:ansible_execute_task_command, "$FILE", fname, "")
     call s:call_in_term(command)
 endfunction
