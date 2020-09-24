@@ -50,16 +50,21 @@ function s:AnsibleExecuteTask() range abort
 " Copy templates files to /tmp/template prior executing templates
 python3 <<EOF
 import shutil, yaml, os, sys
+from pathlib import Path
 lines = vim.eval('@"')
 data = yaml.safe_load(lines)
+playpath = Path(vim.eval('expand("%:p:h")'))
 if data is not None and isinstance(data, list) and data:
-  src = data[0].get("template", {}).get("src")
-  if src is not None:
-    path = os.path.abspath(os.path.join(vim.eval('expand("%:p")'), "../../templates", src))
-    if not os.path.exists("/tmp/templates"):
-        os.mkdir("/tmp/templates")
-    print(path)
-    shutil.copyfile(path, os.path.join("/tmp/templates", src))
+  for task in data:
+    src = task.get("template", {}).get("src")
+    if src is not None:
+      path = playpath / '../../templates' / src
+      if not path.exists():
+        path.mkdir(parents=True)
+      shutil.copyfile(str(path), Path("/tmp/templates") / src)
+    include_tasks = task.get("include_tasks")
+    if include_tasks is not None:
+      shutil.copyfile(playpath/ include_tasks, Path("/tmp") / include_tasks)
 EOF
     let command = substitute(g:ansible_execute_task_command, "$FILE", fname, "")
     call s:call_in_term(command)
