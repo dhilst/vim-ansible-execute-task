@@ -1,3 +1,8 @@
+if exists('b:vim_ansible_execute_task')
+    finish
+endif
+let b:vim_ansible_execute_task = 1
+
 func! s:findbuf(bufpat) abort
   redir @o
   silent! ls
@@ -61,10 +66,16 @@ if data is not None and isinstance(data, list) and data:
       path = playpath / '../../templates' / src
       if not path.exists():
         path.mkdir(parents=True)
-      shutil.copyfile(str(path), Path("/tmp/templates") / src)
+      try:
+        shutil.copyfile(str(path), Path("/tmp/templates") / src)
+      except:
+        pass
     include_tasks = task.get("include_tasks")
     if include_tasks is not None:
-      shutil.copyfile(playpath/ include_tasks, Path("/tmp") / include_tasks)
+      try:
+        shutil.copyfile(playpath/ include_tasks, Path("/tmp") / include_tasks)
+      except:
+        pass
 EOF
     let command = substitute(g:ansible_execute_task_command, "$FILE", fname, "")
     call s:call_in_term(command)
